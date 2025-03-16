@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+package user_v1;
+
+import "google/protobuf/field_mask.proto";
+
+option go_package = "generated/go/user/v1";
+
+service AuthService {
+    rpc Login (LoginRequest) returns (LoginResponse);
+    rpc Register (RegisterRequest) returns (RegisterResponse);
+    rpc GetRefreshToken (GetRefreshTokenRequest) returns (GetRefreshTokenResponse);
+    rpc GetAccessToken (GetAccessTokenRequest) returns (GetAccessTokenResponse);
+}
+
+service UserService {
+    rpc GetUser (GetUserRequest) returns (GetUserResponse);
+    rpc GetProfile (GetProfileRequest) returns (GetProfileResponse);
+    rpc UpdateProfile (UpdateProfileRequest) returns (UpdateProfileResponse);
+    rpc UpdateAvatar (UpdateAvatarRequest) returns (UpdateAvatarResponse);
+}
+
+message GetUserRequest {
+    string uuid = 1;
+}
+
+message GetUserResponse {
+    User user = 1;
+}
+
+message GetProfileRequest {
+    string uuid = 1;
+}
+
+message GetProfileResponse {
+    PublicUser user = 1;
+}
+
+message UpdateProfileRequest {
+    string uuid = 1;
+    google.protobuf.FieldMask update_mask = 2;
+    string first_name = 3;
+    string last_name = 4;
+    int32 age = 5;
+    string gender = 6;
+}
+
+message UpdateProfileResponse {
+    PublicUser user = 1;
+}
+
+message UpdateAvatarRequest {
+    string uuid = 1;
+    bytes image = 2;
+}
+
+message UpdateAvatarResponse {
+    PublicUser user = 1;
+}
+
+message UserInfo {
+    string first_name = 1;
+    string last_name = 2;
+    string email = 3;
+    int32 age = 4;
+    string gender = 5;
+    string avatar_url = 6;
+}
+
+
+message User {
+    string uuid = 1;
+    string username = 2;
+    UserInfo info = 4;
+}
+
+message PublicUser {
+    string uuid = 1;
+    string username = 2;
+    UserInfo info = 3;
+}
+
+message LoginRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    string refresh_token = 1;
+}
+
+message RegisterRequest {
+    string username = 1;
+    string password = 2;
+    UserInfo info = 3;
+}
+
+message RegisterResponse {
+    string refresh_token = 1;
+}
+
+message GetRefreshTokenRequest {
+    string refresh_token = 1;
+}
+
+message GetRefreshTokenResponse {
+    string refresh_token = 1;
+}
+
+message GetAccessTokenRequest {
+    string refresh_token = 1;
+}
+
+message GetAccessTokenResponse {
+    string access_token = 1;
+}
