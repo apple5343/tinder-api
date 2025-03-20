@@ -34,7 +34,7 @@ message GetProfileRequest {
 }
 
 message GetProfileResponse {
-    PublicUser user = 1;
+    PrivateUser user = 1;
 }
 
 message GetPublicProfileRequest {
@@ -42,7 +42,7 @@ message GetPublicProfileRequest {
 }
 
 message GetPublicProfileResponse {
-    PrivateUser user = 1;
+    PublicUser user = 1;
 }
 
 message UpdateProfileRequest {
