@@ -3,6 +3,7 @@ syntax = "proto3";
 package user_v1;
 
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/empty.proto";
 
 option go_package = "generated/go/user/v1";
 
@@ -18,7 +19,8 @@ service UserService {
     rpc GetProfile (GetProfileRequest) returns (GetProfileResponse);
     rpc GetPublicProfile (GetPublicProfileRequest) returns (GetPublicProfileResponse);
     rpc UpdateProfile (UpdateProfileRequest) returns (UpdateProfileResponse);
-    rpc UpdateAvatar (UpdateAvatarRequest) returns (UpdateAvatarResponse);
+    rpc AddAvatar (AddAvatarRequest) returns (AddAvatarResponse);
+    rpc DeleteAvatar (DeleteAvatarRequest) returns (google.protobuf.Empty);
 }
 
 message GetUserRequest {
@@ -58,13 +60,18 @@ message UpdateProfileResponse {
     PrivateUser user = 1;
 }
 
-message UpdateAvatarRequest {
+message AddAvatarRequest {
     string uuid = 1;
     bytes image = 2;
 }
 
-message UpdateAvatarResponse {
+message AddAvatarResponse {
     PrivateUser user = 1;
+}
+
+message DeleteAvatarRequest {
+    string uuid = 1;
+    string user_id = 2;
 }
 
 message UserInfo {
@@ -73,13 +80,13 @@ message UserInfo {
     string email = 3;
     int32 age = 4;
     string gender = 5;
-    string avatar_url = 6;
+    repeated string avatar_urls = 6;
 }
 
 message UserInfoPublic {
     string first_name = 1;
     string last_name = 2;
-    string avatar_url = 3;
+    repeated string avatar_url = 3;
     int32 age = 4;
     string gender = 5;
 }
