@@ -98,8 +98,8 @@ message UserInfo {
 }
 
 message UserPreferences {
-    int32 age_from = 1;
-    int32 age_to = 2;
+    optional int32 age_from = 1;
+    optional int32 age_to = 2;
     string gender = 3;
     int64 max_distance = 4;
 }
