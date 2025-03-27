@@ -19,6 +19,7 @@ service UserService {
     rpc GetProfile (GetProfileRequest) returns (GetProfileResponse);
     rpc GetPublicProfile (GetPublicProfileRequest) returns (GetPublicProfileResponse);
     rpc UpdateProfile (UpdateProfileRequest) returns (UpdateProfileResponse);
+    rpc UpdateUserPreferences (UpdateUserPreferencesRequest) returns (UpdateUserPreferencesResponse);
     rpc AddAvatar (AddAvatarRequest) returns (AddAvatarResponse);
     rpc DeleteAvatar (DeleteAvatarRequest) returns (google.protobuf.Empty);
 }
@@ -62,6 +63,15 @@ message UpdateProfileResponse {
     PrivateUser user = 1;
 }
 
+message UpdateUserPreferencesRequest {
+    string uuid = 1;
+    UserPreferences preferences = 2;
+}
+
+message UpdateUserPreferencesResponse {
+    PrivateUser user = 1;
+}
+
 message AddAvatarRequest {
     string uuid = 1;
     bytes image = 2;
@@ -87,6 +97,13 @@ message UserInfo {
     repeated string avatar_urls = 8;
 }
 
+message UserPreferences {
+    int32 age_from = 1;
+    int32 age_to = 2;
+    string gender = 3;
+    int64 max_distance = 4;
+}
+
 message UserInfoPublic {
     string first_name = 1;
     string last_name = 2;
@@ -100,12 +117,14 @@ message User {
     string uuid = 1;
     string username = 2;
     UserInfo info = 4;
+    UserPreferences preferences = 5;
 }
 
 message PrivateUser {
     string uuid = 1;
     string username = 2;
     UserInfo info = 3;
+    UserPreferences preferences = 4;
 }
 
 message PublicUser {
