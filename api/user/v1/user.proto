@@ -65,7 +65,11 @@ message UpdateProfileResponse {
 
 message UpdateUserPreferencesRequest {
     string uuid = 1;
-    UserPreferences preferences = 2;
+    google.protobuf.FieldMask update_mask = 2;
+    int32 age_from = 3;
+    int32 age_to = 4;
+    string gender = 5;
+    int64 max_distance = 6;
 }
 
 message UpdateUserPreferencesResponse {
