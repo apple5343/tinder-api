@@ -5,6 +5,13 @@ generate-user-api:
 		--go-grpc_out=generated/go/user/v1 --go-grpc_opt=paths=source_relative \
 		api/user/v1/user.proto 
 
+generate-deck-api:
+	mkdir -p generated/go/deck/v1
+	protoc --proto_path=api/deck/v1 \
+		--go_out=generated/go/deck/v1 --go_opt=paths=source_relative \
+		--go-grpc_out=generated/go/deck/v1 --go-grpc_opt=paths=source_relative \
+		api/deck/v1/deck.proto
+
 load-test-register:
 	ghz \
 	--insecure \
