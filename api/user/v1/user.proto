@@ -18,9 +18,12 @@ service UserService {
     rpc GetUser (GetUserRequest) returns (GetUserResponse);
     rpc GetProfile (GetProfileRequest) returns (GetProfileResponse);
     rpc GetPublicProfile (GetPublicProfileRequest) returns (GetPublicProfileResponse);
+    rpc GetBatchProfiles (GetBatchProfilesRequest) returns (GetBatchProfilesResponse);
+
     rpc UpdateProfile (UpdateProfileRequest) returns (UpdateProfileResponse);
     rpc UpdateUserPreferences (UpdateUserPreferencesRequest) returns (UpdateUserPreferencesResponse);
     rpc AddAvatar (AddAvatarRequest) returns (AddAvatarResponse);
+
     rpc DeleteAvatar (DeleteAvatarRequest) returns (google.protobuf.Empty);
 }
 
@@ -48,6 +51,14 @@ message GetPublicProfileResponse {
     PublicUser user = 1;
 }
 
+message GetBatchProfilesRequest {
+    repeated string uuids = 1;
+}
+
+message GetBatchProfilesResponse {
+    repeated PublicUser users = 1;
+}
+
 message UpdateProfileRequest {
     string uuid = 1;
     google.protobuf.FieldMask update_mask = 2;
@@ -57,6 +68,7 @@ message UpdateProfileRequest {
     string gender = 6;
     float longitude = 7;
     float latitude = 8;
+    string bio = 9;
 }
 
 message UpdateProfileResponse {
@@ -99,6 +111,7 @@ message UserInfo {
     float longitude = 6;
     float latitude = 7;
     repeated string avatar_urls = 8;
+    string bio = 9;
 }
 
 message UserPreferences {
@@ -114,6 +127,7 @@ message UserInfoPublic {
     repeated string avatar_urls = 3;
     int32 age = 4;
     string gender = 5;
+    string bio = 6;
 }
 
 

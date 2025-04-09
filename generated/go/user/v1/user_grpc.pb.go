@@ -239,6 +239,7 @@ const (
 	UserService_GetUser_FullMethodName               = "/user_v1.UserService/GetUser"
 	UserService_GetProfile_FullMethodName            = "/user_v1.UserService/GetProfile"
 	UserService_GetPublicProfile_FullMethodName      = "/user_v1.UserService/GetPublicProfile"
+	UserService_GetBatchProfiles_FullMethodName      = "/user_v1.UserService/GetBatchProfiles"
 	UserService_UpdateProfile_FullMethodName         = "/user_v1.UserService/UpdateProfile"
 	UserService_UpdateUserPreferences_FullMethodName = "/user_v1.UserService/UpdateUserPreferences"
 	UserService_AddAvatar_FullMethodName             = "/user_v1.UserService/AddAvatar"
@@ -252,6 +253,7 @@ type UserServiceClient interface {
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	GetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*GetProfileResponse, error)
 	GetPublicProfile(ctx context.Context, in *GetPublicProfileRequest, opts ...grpc.CallOption) (*GetPublicProfileResponse, error)
+	GetBatchProfiles(ctx context.Context, in *GetBatchProfilesRequest, opts ...grpc.CallOption) (*GetBatchProfilesResponse, error)
 	UpdateProfile(ctx context.Context, in *UpdateProfileRequest, opts ...grpc.CallOption) (*UpdateProfileResponse, error)
 	UpdateUserPreferences(ctx context.Context, in *UpdateUserPreferencesRequest, opts ...grpc.CallOption) (*UpdateUserPreferencesResponse, error)
 	AddAvatar(ctx context.Context, in *AddAvatarRequest, opts ...grpc.CallOption) (*AddAvatarResponse, error)
@@ -290,6 +292,16 @@ func (c *userServiceClient) GetPublicProfile(ctx context.Context, in *GetPublicP
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetPublicProfileResponse)
 	err := c.cc.Invoke(ctx, UserService_GetPublicProfile_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetBatchProfiles(ctx context.Context, in *GetBatchProfilesRequest, opts ...grpc.CallOption) (*GetBatchProfilesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetBatchProfilesResponse)
+	err := c.cc.Invoke(ctx, UserService_GetBatchProfiles_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -343,6 +355,7 @@ type UserServiceServer interface {
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	GetProfile(context.Context, *GetProfileRequest) (*GetProfileResponse, error)
 	GetPublicProfile(context.Context, *GetPublicProfileRequest) (*GetPublicProfileResponse, error)
+	GetBatchProfiles(context.Context, *GetBatchProfilesRequest) (*GetBatchProfilesResponse, error)
 	UpdateProfile(context.Context, *UpdateProfileRequest) (*UpdateProfileResponse, error)
 	UpdateUserPreferences(context.Context, *UpdateUserPreferencesRequest) (*UpdateUserPreferencesResponse, error)
 	AddAvatar(context.Context, *AddAvatarRequest) (*AddAvatarResponse, error)
@@ -365,6 +378,9 @@ func (UnimplementedUserServiceServer) GetProfile(context.Context, *GetProfileReq
 }
 func (UnimplementedUserServiceServer) GetPublicProfile(context.Context, *GetPublicProfileRequest) (*GetPublicProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPublicProfile not implemented")
+}
+func (UnimplementedUserServiceServer) GetBatchProfiles(context.Context, *GetBatchProfilesRequest) (*GetBatchProfilesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBatchProfiles not implemented")
 }
 func (UnimplementedUserServiceServer) UpdateProfile(context.Context, *UpdateProfileRequest) (*UpdateProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateProfile not implemented")
@@ -449,6 +465,24 @@ func _UserService_GetPublicProfile_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).GetPublicProfile(ctx, req.(*GetPublicProfileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetBatchProfiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBatchProfilesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetBatchProfiles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetBatchProfiles_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetBatchProfiles(ctx, req.(*GetBatchProfilesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -543,6 +577,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPublicProfile",
 			Handler:    _UserService_GetPublicProfile_Handler,
+		},
+		{
+			MethodName: "GetBatchProfiles",
+			Handler:    _UserService_GetBatchProfiles_Handler,
 		},
 		{
 			MethodName: "UpdateProfile",
