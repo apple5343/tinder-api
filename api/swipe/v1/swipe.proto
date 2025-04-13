@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package swipe_v1;
+
+option go_package = "generated/go/swipe/v1";
+import "google/protobuf/empty.proto";
+
+service SwipeService {
+    rpc Swipe (SwipeRequest) returns (google.protobuf.Empty);
+    rpc GetSwipes (GetSwipesRequest) returns (GetSwipesResponse);
+    rpc GetSwipedUsers (GetSwipedUsersRequest) returns (GetSwipedUsersResponse);
+    rpc GetLiked (GetLikedRequest) returns (GetLikedResponse);
+}
+
+message UserSwipe {
+    string target_id = 1;
+    bool user_like = 2;
+    optional bool target_like = 3;
+}
+
+message SwipeRequest {
+    string user_id = 1;
+    string target_id = 2;
+    bool like = 3;
+}
+
+message GetSwipesRequest {
+    string user_id = 1;
+}
+
+message GetSwipesResponse {
+    string user_id = 1;
+    repeated UserSwipe swipes = 2;
+}
+
+message GetLikedRequest {
+    string user_id = 1;
+}
+
+message GetLikedResponse {
+    string user_id = 1;
+    repeated string liked = 2;
+}
+
+message GetSwipedUsersRequest {
+    string user_id = 1;
+}
+
+message GetSwipedUsersResponse {
+    string user_id = 1;
+    repeated string swiped = 2;
+}

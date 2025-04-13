@@ -12,6 +12,13 @@ generate-deck-api:
 		--go-grpc_out=generated/go/deck/v1 --go-grpc_opt=paths=source_relative \
 		api/deck/v1/deck.proto
 
+generate-swipe-api:
+	mkdir -p generated/go/swipe/v1
+	protoc --proto_path=api/swipe/v1 \
+		--go_out=generated/go/swipe/v1 --go_opt=paths=source_relative \
+		--go-grpc_out=generated/go/swipe/v1 --go-grpc_opt=paths=source_relative \
+		api/swipe/v1/swipe.proto
+
 load-test-register:
 	ghz \
 	--insecure \
